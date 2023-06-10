@@ -32,8 +32,13 @@ export const getAllTodos = async (req, res) => {
           todos = await Todo.find({ id });
     } else {
       todos = await Todo.find();
+      if (todos.length ) {
+        res.status(200).json(todos);
+      } else {
+        res.send("No todos found!");
+      }
     }
-    res.status(200).json(todos);
+    
   } catch (error) {
     console.log(error)
   }
@@ -96,10 +101,17 @@ export const updateTodo = async (req, res) => {
 export const getTodo = async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);
-    res.status(200).json(todo);
+    if (todo) {
+      res.status(200).json(todo);
+    } else {
+      res.send("Todo not Found!")
+    }
+    
   } catch (error) {
     res.status(500).json(error);
   }
 };
+
+
 
 
